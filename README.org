@@ -1,0 +1,45 @@
+* postagger: Emacs interface to a part-of-speech tagger
+
+postagger provides an interface to a part-of-speech tagger, currently [[https://languagemachines.github.io/mbt/][MBT (Memory-based tagger generator and tagger)]].  The primary interface is the function ~postagger-tag-sentence~, which feeds the current sentence to the tagger and attaches the POS tags returned by the tagger as text properties to the word forms of the sentence.
+
+I wrote this code in 2009 for the [[http://lingured.info][LingURed]] project.  It is highly experimental and was originally for XEmacs; the current version is a quick port to FSF Emacs, but it still requires the deprecated ~levents~ package.
+
+Put this in your =.emacs= to make the functions of this library
+available:
+
+#+BEGIN_SRC elisp
+(require 'postagger)
+#+END_SRC
+
+The settings files for Mbt to use are (obviously) language-dependent.  Specify the settings file for each language you're using in the variable `postagger-settings-files'.  The settings file to use is selected on the basis of the current language environment.  Use the function ~set-language-environment~ to correctly set the language environment.
+
+postagger provides a customize interface to set all relevant options.
+
+postagger is not really useful by itself, but it is intended to provide infrastructure for linguistically supported editing functions.  ~postagger-tag-sentence~ will then probably be run automatically by some hook.
+
+However, ~postagger-tag-sentence~ can be called interactively.  For testing you may want to bind ~postagger-tag-sentence~ to a key combination, e.g., =C-c p=:
+
+#+BEGIN_SRC elisp
+(define-key text-mode-map [(control c p)] 'postagger-tag-sentence)
+#+END_SRC
+
+If you're using AUCTeX, you may want to add:
+
+#+BEGIN_SRC elisp
+(add-hook 'TeX-mode-hook
+        (lambda ()
+          (define-key LaTeX-mode-map [(control c p)]
+            'postagger-tag-sentence)))
+#+END_SRC
+
+If you're using Gnus, you may also want to add:
+
+#+BEGIN_SRC elisp
+(define-key message-mode-map [(control c p)] 'postagger-tag-sentence)
+#+END_SRC
+
+** Todo
+
+- Should we use a buffer instead of the global ~postagger-output~ variable?
+- Should we specify a sentinel for the process?
+- One could also use a [[info:elisp#Transaction%20Queues][transaction queue]] for communicating with the process.  Would this be better?
