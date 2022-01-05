@@ -2,7 +2,7 @@
 ;;
 ;; Author: Michael Piotrowski <mxp@cl.uzh.ch>
 ;; Keywords: editing, part-of-speech tagging, LingURed
-;; Time-stamp: <2016-04-02T10:14:46 mxp>
+;; Time-stamp: <2022-01-05T15:32:23 mpiotrow>
 ;; Version: $Revision: $
 
 ;; Copyright (C) 2009 Michael Piotrowski
@@ -80,7 +80,7 @@
 
 ;;; Code:
 
-(require 'cl)
+(require 'cl-lib)
 (require 'levents)
 
 (defun beginning-of-word ()
